@@ -1,0 +1,54 @@
+# ═══════════════════════════════════════════════════
+#       AutoPilot-Hub - Monitoring Stack
+#       Usage: docker compose -f docker-compose.yml 
+#              -f docker-compose.monitoring.yml up
+# ═══════════════════════════════════════════════════
+
+version: '3.9'
+
+services:
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: autopilot-prometheus
+    restart: unless-stopped
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    networks:
+      - autopilot-network
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.retention.time=30d'
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: autopilot-grafana
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin}
+      GF_USERS_ALLOW_SIGN_UP: 'false'
+    volumes:
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    networks:
+      - autopilot-network
+    depends_on:
+      - prometheus
+
+  loki:
+    image: grafana/loki:latest
+    container_name: autopilot-loki
+    restart: unless-stopped
+    volumes:
+      - ./monitoring/loki/loki-config.yml:/etc/loki/local-config.yaml
+    ports:
+      - "3100:3100"
+    networks:
+      - autopilot-network
+
+networks:
+  autopilot-network:
+    external: true
