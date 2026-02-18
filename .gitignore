@@ -1,0 +1,96 @@
+# ══════════════════════════════════════
+#         AutoPilot-Hub .gitignore
+# ══════════════════════════════════════
+
+# ── Python ──
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+eggs/
+*.egg
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ── Environment ──
+.env
+.env.local
+.env.production
+!.env.example
+
+# ── Docker ──
+docker-compose.override.yml
+
+# ── IDE ──
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.settings/
+
+# ── OS ──
+.DS_Store
+Thumbs.db
+*.desktop
+
+# ── Logs ──
+logs/
+*.log
+
+# ── Database ──
+*.db
+*.sqlite3
+data/postgres/
+data/redis/
+data/rabbitmq/
+
+# ── Secrets & Credentials ──
+credentials/
+*.pem
+*.key
+*.crt
+token.json
+credentials.json
+gmail_token.pickle
+
+# ── Ollama Models (too large) ──
+models/
+
+# ── Browser Data ──
+browser_data/
+screenshots/
+playwright/.cache/
+
+# ── Bug Hunter Results ──
+results/
+scans/
+*.nmap
+*.xml
+
+# ── Reports (generated) ──
+reports/generated/
+
+# ── Node (Dashboard) ──
+node_modules/
+.next/
+out/
+
+# ── Testing ──
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# ── Misc ──
+*.bak
+*.tmp
+*.temp
